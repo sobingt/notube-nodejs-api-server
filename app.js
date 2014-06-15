@@ -20,6 +20,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
+var Schema = mongoose.Schema;
+var restify = require('express-restify-mongoose')
 
 /**
  * Controllers (route handlers).
@@ -28,7 +30,7 @@ var connectAssets = require('connect-assets');
 var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
-var contactController = require('./controllers/contact');
+var testController = require('./controllers/test');
 
 /**
  * API keys and Passport configuration.
@@ -51,6 +53,7 @@ mongoose.connect(secrets.db);
 mongoose.connection.on('error', function() {
   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
 });
+
 
 var hour = 3600000;
 var day = hour * 24;
@@ -111,6 +114,7 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
 
+
 /**
  * Main routes.
  */
@@ -125,8 +129,6 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
-app.get('/contact', contactController.getContact);
-app.post('/contact', contactController.postContact);
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
@@ -141,6 +143,12 @@ app.get('/api', apiController.getApi);
 app.get('/api/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getFacebook);
 
 /**
+ * CRUD Example Test
+ */
+app.get('/test/create/note', testController.getCreateForm)
+
+
+/**
  * OAuth sign-in routes.
  */
 
@@ -152,6 +160,30 @@ app.get('/auth/google', passport.authenticate('google', { scope: 'profile email'
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
+var Note = new Schema({
+    name: { type: String, required: true },
+    submitter: { type: Schema.Types.ObjectId, ref: 'Users' },
+    desc: { type: String, required: true },
+    src: { type: String, required: true },
+    tags: [String],
+    stat: {
+      rating: { type: Number},
+      views: { type: Number}
+    },
+    cat: {
+      subject: { type: String},
+      grade: { type: String},
+      board: { type: String}
+    },
+    comments: [
+      {
+        user_id: { type: Schema.Types.ObjectId, ref: 'Users' },
+        message: String 
+      }
+    ]
+});
+var NoteModel = mongoose.model('Note', Note);
+restify.serve(app, NoteModel);
 
 
 

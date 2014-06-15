@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+ h1 Create Notes Test
+  form(method="POST", action="/api/v1/Notes")
+   input(type="hidden", name="_method", value="PUT")
+   p Name
+    input(type="text", name="name")
+   input(type='hidden', name='_csrf', value=_csrf)
+   p
+    input(type="submit")
+
+
+
+

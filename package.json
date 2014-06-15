@@ -1,9 +1,6 @@
 {
   "name": "notube",
-  "version": "0.1",
-  "repository": {
-    "type": "git",
-  },
+  "version": "0.1.0",
   "scripts": {
     "start": "node app.js",
     "test": "mocha"
@@ -46,7 +43,8 @@
     "twit": "^1.1.15",
     "uglify-js": "^2.4.13",
     "validator": "^3.13.0",
-    "yui": "^3.17.1"
+    "yui": "^3.17.1",
+    "express-restify-mongoose": "^0.6.8"
   },
   "devDependencies": {
     "blessed": "0.0.33",
@@ -54,5 +52,24 @@
     "mocha": "^1.20.0",
     "multiline": "^0.3.4",
     "supertest": "^0.13.0"
-  }
+  },
+  "description": "notube-nodejs-api-server\r ========================",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sobingt/notube-nodejs-api-server.git"
+  },
+  "keywords": [
+    "youtube",
+    "for",
+    "open",
+    "source",
+    "notes"
+  ],
+  "author": "Sobin George Thomas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sobingt/notube-nodejs-api-server/issues"
+  },
+  "homepage": "https://github.com/sobingt/notube-nodejs-api-server"
 }
