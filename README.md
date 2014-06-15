@@ -30,3 +30,4 @@ GET http://localhost:3000/api/v1/Notes?$and=[{"field":">=value"},{"field":[value
 GET http://localhost:3000/api/v1/Notes?$or=[{"field":"value"},{"$and",[{"field":"~value"},{"field":"!=value"}]}]
 
 GET http://localhost:3000/api/v1/Notes?skip=10&limit=10
+
